@@ -1,19 +1,17 @@
-const test: string = 'test';
+import Didux from './didux';
 
-console.log(test);
+interface data {
+	count: number;
+}
 
-console.log('test ');
+class TestDidux extends Didux<data> {
+	setupDefaultState() {
+		return { count: 0 };
+	}
+}
 
-const sleep = (time: number) => new Promise(resolve => setTimeout(() => resolve(), time));
+const testDidux = new TestDidux();
 
-const testPromise = async () => {
-	console.log('wait 5s');
+console.log(testDidux.getState());
 
-	await sleep(5000);
-
-	console.log('done');
-};
-
-testPromise();
-
-export default test;
+export default TestDidux;
