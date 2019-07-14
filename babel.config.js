@@ -5,7 +5,8 @@ const babelPlugins = [
 			corejs: 3,
 		},
 	],
-	'@babel/plugin-proposal-class-properties',
+	['@babel/plugin-proposal-decorators', { legacy: true }],
+	['@babel/plugin-proposal-class-properties', { loose: true }],
 	'@babel/plugin-proposal-json-strings',
 ];
 
