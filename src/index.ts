@@ -1,5 +1,7 @@
 import 'reflect-metadata';
-import Didux, { action } from './didux';
+
+import Didux from './didux';
+import { action } from './decorator';
 
 interface data {
 	count: number;

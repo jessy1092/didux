@@ -1,30 +1,8 @@
 import { createStore, Store, Reducer, Unsubscribe, Action } from 'redux';
-
-const ACTIONS_SYMBOL = Symbol('ACTIONS');
+import { ACTIONS_SYMBOL } from './constant';
 
 interface PayloadAction<state> extends Action {
 	payload: state;
-}
-
-export function action<T>(): MethodDecorator {
-	return (target, key, descriptor: PropertyDescriptor): PropertyDescriptor => {
-		const actionName = `@didux/${target.constructor.name}_${String(key)}`;
-		const actions = Reflect.getMetadata(ACTIONS_SYMBOL, target) || [];
-
-		Reflect.defineMetadata(ACTIONS_SYMBOL, [...actions, actionName], target);
-
-		const fn = descriptor.value;
-
-		descriptor.value = function(...props: any[]): T {
-			const result = fn.apply(this, props);
-
-			(<Didux<T>>this).dispatch({ type: actionName, payload: result });
-
-			return result;
-		};
-
-		return descriptor;
-	};
 }
 
 abstract class Didux<state> {
