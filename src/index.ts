@@ -1,17 +1,5 @@
-import Didux from './didux';
+import DefaultDidux from './didux';
 
-interface data {
-	count: number;
-}
+export default DefaultDidux;
 
-class TestDidux extends Didux<data> {
-	setupDefaultState() {
-		return { count: 0 };
-	}
-}
-
-const testDidux = new TestDidux();
-
-console.log(testDidux.getState());
-
-export default TestDidux;
+export const Didux = DefaultDidux;

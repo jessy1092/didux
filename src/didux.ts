@@ -1,37 +1,43 @@
 import { createStore, Store, Reducer, Unsubscribe, Action } from 'redux';
-
-enum ACTION_TYPE {
-	SETUP_REDUCER,
-}
+import { ACTIONS_SYMBOL } from './constant';
 
 interface PayloadAction<state> extends Action {
-	type: ACTION_TYPE;
 	payload: state;
 }
 
-abstract class Didux<state> {
-	private _defaultState: state;
-
+abstract class Didux<state = any> {
 	private _store: Store;
-
-	private _reducer: Reducer<state, PayloadAction<state>> = (state = this._defaultState, action) => {
-		if (action.type === ACTION_TYPE.SETUP_REDUCER) {
-			return action.payload;
-		}
-		return state;
-	};
 
 	private _unsubscribe: Unsubscribe = () => {};
 
 	constructor() {
-		this._defaultState = this.setupDefaultState();
-		this._store = createStore(this._reducer);
+		const actions: string[] = Reflect.getMetadata(ACTIONS_SYMBOL, this) || [];
+		const defaultState = this.setupDefaultState();
+		const reducer = this.createReducer(actions, defaultState);
+		this._store = createStore(reducer);
+	}
+
+	private createReducer(
+		actions: string[],
+		defaultState: state,
+	): Reducer<state, PayloadAction<state>> {
+		return (state = defaultState, action) => {
+			if (actions.includes(action.type)) {
+				return action.payload;
+			}
+
+			return state;
+		};
 	}
 
 	abstract setupDefaultState(): state;
 
 	getState(): state {
 		return this._store.getState();
+	}
+
+	dispatch(action: PayloadAction<state>) {
+		return this._store.dispatch(action);
 	}
 
 	subscribe(props: () => void): () => void {

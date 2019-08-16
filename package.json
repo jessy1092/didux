@@ -5,7 +5,8 @@
 	"main": "dist/index.js",
 	"module": "dist-es/index.js",
 	"scripts": {
-		"start": "babel-node ./src/index.ts --extensions '.ts'",
+		"start": "cross-env BABEL_ENV=cjs babel-node ./example/typescript.ts --extensions '.ts'",
+		"start:next": "npm run build:es && cross-env BABEL_ENV=next babel-node ./example/next.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"check-types": "tsc",
 		"lint": "eslint --ext .ts ./",
@@ -19,6 +20,7 @@
 		"@babel/core": "^7.5.4",
 		"@babel/node": "^7.5.0",
 		"@babel/plugin-proposal-class-properties": "^7.5.0",
+		"@babel/plugin-proposal-decorators": "^7.4.4",
 		"@babel/plugin-proposal-json-strings": "^7.2.0",
 		"@babel/plugin-proposal-object-rest-spread": "^7.5.4",
 		"@babel/plugin-transform-runtime": "^7.5.0",
@@ -26,15 +28,19 @@
 		"@babel/preset-typescript": "^7.3.3",
 		"@babel/runtime-corejs3": "^7.5.4",
 		"@typescript-eslint/eslint-plugin": "^1.11.0",
+		"core-js": "^3.1.4",
 		"cross-env": "^5.2.0",
 		"eslint": "^5.16.0",
 		"eslint-config-airbnb-typescript": "^4.0.1",
 		"eslint-plugin-import": "^2.14.0",
 		"prettier": "^1.18.2",
+		"reflect-metadata": "^0.1.13",
 		"typescript": "^3.5.3"
 	},
+	"peerDependencies": {
+		"core-js": "^3.1.4"
+	},
 	"dependencies": {
-		"core-js": "^3.1.4",
 		"redux": "^4.0.4"
 	}
 }
