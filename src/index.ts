@@ -14,26 +14,26 @@ class Calculator extends Didux<data> {
 		return { count: 0 };
 	}
 
-	@action<data>()
+	@action
 	reset(): data {
 		return { count: 0 };
 	}
 
-	@action<data>()
+	@action
 	addOne(): data {
 		const state = this.getState();
 
 		return { count: state.count + 1 };
 	}
 
-	@action<data>()
+	@action
 	add(num: number): data {
 		const state = this.getState();
 
 		return { count: state.count + num };
 	}
 
-	@action<data>()
+	@action
 	async delayAdd(num: number, time: number): Promise<data> {
 		const state = this.getState();
 

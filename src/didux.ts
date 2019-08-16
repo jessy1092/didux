@@ -5,7 +5,7 @@ interface PayloadAction<state> extends Action {
 	payload: state;
 }
 
-abstract class Didux<state> {
+abstract class Didux<state = any> {
 	private _store: Store;
 
 	private _unsubscribe: Unsubscribe = () => {};

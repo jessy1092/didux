@@ -11,31 +11,33 @@ function isPromise(value: any) {
 	return false;
 }
 
-export function action<T>(): MethodDecorator {
-	return (target, key, descriptor: PropertyDescriptor): PropertyDescriptor => {
-		const actionName = `@didux/${target.constructor.name}_${String(key)}`;
-		const actions = Reflect.getMetadata(ACTIONS_SYMBOL, target) || [];
+export function action(
+	target: Didux,
+	key: any,
+	descriptor: PropertyDescriptor,
+): PropertyDescriptor {
+	const actionName = `@didux/${target.constructor.name}_${String(key)}`;
+	const actions = Reflect.getMetadata(ACTIONS_SYMBOL, target) || [];
 
-		Reflect.defineMetadata(ACTIONS_SYMBOL, [...actions, actionName], target);
+	Reflect.defineMetadata(ACTIONS_SYMBOL, [...actions, actionName], target);
 
-		const fn = descriptor.value;
+	const fn = descriptor.value;
 
-		descriptor.value = function WraFunc(...props: any[]): T | Promise<T> {
-			const result = fn.apply(this, props);
+	descriptor.value = function WraFunc(...props: any[]) {
+		const result = fn.apply(this, props);
 
-			if (isPromise(result)) {
-				return result.then((data: T) => {
-					(this as Didux<T>).dispatch({ type: actionName, payload: data });
+		if (isPromise(result)) {
+			return result.then((data: any) => {
+				(this as Didux).dispatch({ type: actionName, payload: data });
 
-					return data;
-				});
-			}
+				return data;
+			});
+		}
 
-			(this as Didux<T>).dispatch({ type: actionName, payload: result });
+		(this as Didux).dispatch({ type: actionName, payload: result });
 
-			return result;
-		};
-
-		return descriptor;
+		return result;
 	};
+
+	return descriptor;
 }
