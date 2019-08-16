@@ -6,6 +6,7 @@
 	"module": "dist-es/index.js",
 	"scripts": {
 		"start": "cross-env BABEL_ENV=cjs babel-node ./example/typescript.ts --extensions '.ts'",
+		"start:next": "npm run build:es && cross-env BABEL_ENV=next babel-node ./example/next.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"check-types": "tsc",
 		"lint": "eslint --ext .ts ./",

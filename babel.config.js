@@ -42,6 +42,21 @@ const babelConfigForESModuleBuild = {
 	plugins: babelPlugins,
 };
 
+const babelConfigForNextJSRunner = {
+	presets: [
+		[
+			'@babel/preset-env',
+			{
+				loose: true,
+				useBuiltIns: 'usage',
+				corejs: 3,
+				modules: 'commonjs',
+			},
+		],
+	],
+	plugins: babelPlugins,
+};
+
 const babelConfigForJest = {
 	presets: [
 		[
@@ -63,6 +78,7 @@ const babelConfigForJest = {
 module.exports = api => {
 	const isTest = api.env('test');
 	const isESModule = api.env('esmodule');
+	const isNextJS = api.env('next');
 
 	if (isTest) {
 		return babelConfigForJest;
@@ -70,6 +86,10 @@ module.exports = api => {
 
 	if (isESModule) {
 		return babelConfigForESModuleBuild;
+	}
+
+	if (isNextJS) {
+		return babelConfigForNextJSRunner;
 	}
 
 	return babelConfigForCommonJSBuild;
