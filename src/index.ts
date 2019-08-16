@@ -35,9 +35,9 @@ class Calculator extends Didux<data> {
 
 	@action
 	async delayAdd(num: number, time: number): Promise<data> {
-		const state = this.getState();
-
 		await sleep(time);
+
+		const state = this.getState();
 
 		return { count: state.count + num };
 	}
