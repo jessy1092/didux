@@ -26,6 +26,22 @@ const babelConfigForCommonJSBuild = {
 	plugins: babelPlugins,
 };
 
+const babelConfigForDI = {
+	presets: [
+		[
+			'@babel/preset-env',
+			{
+				loose: true,
+				useBuiltIns: 'usage',
+				corejs: 3,
+				modules: 'commonjs',
+			},
+		],
+		'@babel/preset-typescript',
+	],
+	plugins: ['babel-plugin-transform-typescript-metadata', ...babelPlugins],
+};
+
 const babelConfigForESModuleBuild = {
 	presets: [
 		[
@@ -79,6 +95,7 @@ module.exports = api => {
 	const isTest = api.env('test');
 	const isESModule = api.env('esmodule');
 	const isNextJS = api.env('next');
+	const isDI = api.env('di');
 
 	if (isTest) {
 		return babelConfigForJest;
@@ -90,6 +107,10 @@ module.exports = api => {
 
 	if (isNextJS) {
 		return babelConfigForNextJSRunner;
+	}
+
+	if (isDI) {
+		return babelConfigForDI;
 	}
 
 	return babelConfigForCommonJSBuild;

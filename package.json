@@ -6,6 +6,7 @@
 	"module": "dist-es/index.js",
 	"scripts": {
 		"start": "cross-env BABEL_ENV=cjs babel-node ./example/typescript.ts --extensions '.ts'",
+		"start:di": "cross-env BABEL_ENV=di babel-node ./example/di.ts --extensions '.ts'",
 		"start:next": "npm run build:es && cross-env BABEL_ENV=next babel-node ./example/next.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"check-types": "tsc",
@@ -28,11 +29,13 @@
 		"@babel/preset-typescript": "^7.3.3",
 		"@babel/runtime-corejs3": "^7.5.4",
 		"@typescript-eslint/eslint-plugin": "^1.11.0",
+		"babel-plugin-transform-typescript-metadata": "^0.2.2",
 		"core-js": "^3.1.4",
 		"cross-env": "^5.2.0",
 		"eslint": "^5.16.0",
 		"eslint-config-airbnb-typescript": "^4.0.1",
 		"eslint-plugin-import": "^2.14.0",
+		"injection-js": "^2.2.2",
 		"prettier": "^1.18.2",
 		"reflect-metadata": "^0.1.13",
 		"typescript": "^3.5.3"
